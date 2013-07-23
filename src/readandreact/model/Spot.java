@@ -30,4 +30,52 @@ public enum Spot {
 			default: return null;
 		}
 	}
+        
+        public boolean isOnPerimeter() {
+            switch (this) {
+                case LEFT_CORNER: return true;
+		case RIGHT_CORNER: return true;
+		case TOP: return true;
+		case RIGHT_WING_5OUT: return true;
+		case RIGHT_WING_WITH_POST: return true;
+		case LEFT_WING_5OUT: return true;
+		case LEFT_WING_WITH_POST: return true;
+		case HIGH_POST_LEFT: return false;
+		case HIGH_POST_RIGHT: return false;
+		case MID_POST_LEFT: return false;
+		case MID_POST_RIGHT: return false;
+		case LOW_POST_LEFT: return false;
+		case LOW_POST_RIGHT: return false;
+		case SHORT_CORNER_LEFT: return false;
+		case SHORT_CORNER_RIGHT: return false;
+		default: return false;
+            }
+        }
+        
+        public Spot getAppropriateWing(boolean fiveOut, boolean right) {
+            if(fiveOut && right) return RIGHT_WING_5OUT;
+            if(fiveOut && !right) return LEFT_WING_5OUT;
+            if(!fiveOut && right) return RIGHT_WING_WITH_POST;
+            return LEFT_WING_WITH_POST;
+        }
+        
+        public Spot[] getAdjacentPerimeterSpots(boolean fiveOut) {
+            // [spotToLeft, spotToRight]
+            switch(this) {
+                case LEFT_CORNER: return new Spot[] {getAppropriateWing(fiveOut, false), null };
+                case RIGHT_CORNER: return new Spot[] {getAppropriateWing(fiveOut, true), null };
+                case RIGHT_WING_5OUT: return new Spot[] {TOP, RIGHT_CORNER};
+                case RIGHT_WING_WITH_POST: return new Spot[] {TOP, RIGHT_CORNER};
+                case LEFT_WING_5OUT: return new Spot[] {TOP, LEFT_CORNER};
+                case LEFT_WING_WITH_POST: return new Spot[] {TOP, LEFT_CORNER};
+                case TOP: return new Spot[] {getAppropriateWing(fiveOut, false), getAppropriateWing(fiveOut, true)};
+                default: return new Spot[] { null, null };
+            }
+        }
+        
+        public Spot spotAboveBallSide(boolean fiveOut, Spot currentBallPosition) {
+            boolean toTheRight = (currentBallPosition.getLocation().x - this.getLocation().x) > 0;
+            int arrayIndex = toTheRight ? 1 : 0;
+            return this.getAdjacentPerimeterSpots(fiveOut)[arrayIndex];
+        }
 }
