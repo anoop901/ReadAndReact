@@ -17,6 +17,11 @@ public class Player {
 		postPlayer = post;
 		userControlled = uc;
 	}
+        
+        public Player(PlayerPosition pos, boolean post, boolean uc, Point loc) {
+            this(pos, post, uc);
+            location = loc;
+        }
 	
 	public void setLocation(int x, int y) {
 		location = new Point(x, y);
@@ -50,4 +55,8 @@ public class Player {
 	public boolean isUserControlled() {
 		return userControlled;
 	}
+        
+        public void update() {
+            
+        }
 }

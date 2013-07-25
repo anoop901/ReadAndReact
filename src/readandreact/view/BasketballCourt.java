@@ -46,10 +46,11 @@ public class BasketballCourt extends JPanel implements MouseMotionListener, Mous
 		
 		g2.drawImage(bgImage, 100, 0, null);
 		
-		g2.setColor(Color.GREEN);
+		g2.setColor(Color.LIGHT_GRAY);
 		for (Spot spot : Spot.values()) {
 			Point loc = spot.getLocation();
-			g2.fillOval(loc.x - 5, loc.y - 5, 10, 10);
+                        int width = 60;
+			g2.fillOval(loc.x - width / 2, loc.y - width / 2, width, width);
 			//g2.drawString(spot.toString(), loc.x, loc.y);
 		}
 		
