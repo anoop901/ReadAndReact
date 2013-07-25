@@ -10,6 +10,8 @@ public enum Spot {
 		HIGH_POST_LEFT, HIGH_POST_RIGHT, MID_POST_LEFT, MID_POST_RIGHT, LOW_POST_LEFT, LOW_POST_RIGHT,
 		SHORT_CORNER_LEFT, SHORT_CORNER_RIGHT;
 		
+	public static final double radius = 40;
+		
 	public Point getLocation() {
 		switch (this) {
 			case LEFT_CORNER: return new Point(50, 90);
@@ -52,7 +54,7 @@ public enum Spot {
             }
         }
         
-        public Spot getAppropriateWing(boolean fiveOut, boolean right) {
+        public static Spot getAppropriateWing(boolean fiveOut, boolean right) {
             if(fiveOut && right) return RIGHT_WING_5OUT;
             if(fiveOut && !right) return LEFT_WING_5OUT;
             if(!fiveOut && right) return RIGHT_WING_WITH_POST;
@@ -78,4 +80,8 @@ public enum Spot {
             int arrayIndex = toTheRight ? 1 : 0;
             return this.getAdjacentPerimeterSpots(fiveOut)[arrayIndex];
         }
+		
+		public boolean containsPoint(Point p) {
+			return (this.getLocation().distance(p) < radius);
+		}
 }

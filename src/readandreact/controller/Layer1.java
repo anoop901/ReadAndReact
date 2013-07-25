@@ -5,6 +5,8 @@
 package readandreact.controller;
 
 import java.util.ArrayList;
+import javax.swing.Timer;
+import readandreact.model.Ball;
 import readandreact.model.Player;
 import readandreact.model.PlayerPosition;
 import readandreact.model.Spot;
@@ -19,6 +21,9 @@ public class Layer1 extends Layer {
 	private Player userControlledPlayer;
 	private ArrayList<Player> cpuPlayers;
 	private BasketballCourt court;
+	private Ball ball;
+	
+	public Timer timer;
 	
 	public Layer1() {
 		this.cpuPlayers = new ArrayList<Player>();
@@ -32,7 +37,14 @@ public class Layer1 extends Layer {
                     }
 		}
 		
+		for (Player p : cpuPlayers) {
+			p.setDestinationSpot(Spot.TOP);
+		}
+		
+		this.ball = new Ball(userControlledPlayer);
 		this.court = new BasketballCourt(this);
+		this.timer = new Timer(10, court);
+		this.timer.start();
 	}
 	
 	public BasketballCourt getCourt() {
@@ -47,5 +59,21 @@ public class Layer1 extends Layer {
 	@Override
 	public Player getUserPlayer() {
 		return userControlledPlayer;
+	}
+
+	@Override
+	public Ball getBall() {
+		return ball;
+	}
+	
+	@Override
+	public void stepAnim() {
+		for (Player cpu : getCpuPlayers()) {
+			cpu.moveTowardsDestination(5);
+			if (cpu.getLocation().distance(cpu.getDestination()) < 5) {
+				cpu.setLocation(cpu.getDestination().x, cpu.getDestination().y);
+				cpu.setDestinationPoint(cpu.getLocation());
+			}
+		}
 	}
 }

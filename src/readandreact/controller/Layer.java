@@ -5,6 +5,7 @@
 package readandreact.controller;
 
 import java.util.ArrayList;
+import readandreact.model.Ball;
 import readandreact.model.Player;
 
 /**
@@ -15,4 +16,6 @@ public abstract class Layer {
 	
 	public abstract Player getUserPlayer();
 	public abstract ArrayList<Player> getCpuPlayers();
+	public abstract Ball getBall();
+	public abstract void stepAnim();
 }
